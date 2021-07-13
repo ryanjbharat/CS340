@@ -1,0 +1,40 @@
+<!-- Citation for bootstrap css styling:
+https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
+
+{% extends 'template.html' %}
+
+{% block head %}
+<title>Snakes-R-Us: Manage Snakes</title>
+{% endblock %}
+
+{% block body %}
+
+<h1>Snakes</h1>
+<br>
+<!-- <a href="DeliveryPartners/create" class="btn btn-success">Add a Snake</a> -->
+<br>
+<br>
+<table>
+    <thead>
+    <tr>
+        <th>Species</th>
+        <th>Weight (lb)</th>
+        <th>Length (in)</th>
+        <th>color</th>
+        <th>price</th>
+    </tr>
+    </thead>    
+    <tbody>
+        {% for result in results %}    
+            <tr>
+                <td>{{result[1]}}</td>
+                <td>{{result[2]}}</td>
+                <td>{{result[3]}}</td>
+                <td>{{result[4]}}</td>
+                <td>{{result[5]}}</td>
+                </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

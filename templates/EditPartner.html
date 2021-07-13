@@ -1,0 +1,22 @@
+{% extends 'template.html' %}
+
+{% block head %}
+    <title>Snakes-R-Us: Add a Delivery Partner</title>
+{% endblock %} 
+
+
+{% block body %}  
+    <h1>Edit Delivery Partner</h1>
+    <br>
+    <form method="post" action="/DeliveryPartners/EditPartner/{{results[0]}}">
+    <fieldset>
+        <label for="org"> Organization Name: </label>
+        <input type="text" name="org" value="{{results[1]}}" required />
+        <br>
+        <label for="method"> Delivery Method: </label>
+        <input type="text" name="method" value="{{results[2]}}" required />
+        <br>
+        <input type="submit"/>
+    </fieldset>
+    </form>
+{% endblock %}
