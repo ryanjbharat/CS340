@@ -1,0 +1,36 @@
+<!-- Citation for bootstrap css styling:
+https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
+
+{% extends 'template.html' %}
+
+{% block head %}
+<title>Snakes-R-Us: Manage Delivery Partners</title>
+{% endblock %}
+
+{% block body %}
+
+<h1>Delivery Partners</h1>
+<br>
+<a href="DeliveryPartners/NewPartner" class="btn btn-success">Add a Delivery Partner</a>
+<br>
+<br>
+<table>
+    <thead>
+    <tr>
+        <th>Organization Name</th>
+        <th>Delivery Method</th>
+    </tr>
+    </thead>    
+    <tbody>
+        {% for result in results %}    
+            <tr>
+                <td>{{result[1]}}</td>
+                <td>{{result[2]}}</td>
+                <td><a href="{{url_for('EditDeliveryPartner', partnerid=result[0])}}" class="btn btn-warning">Edit</a></td>
+                <td><a href="{{url_for('DeleteDeliveryPartner', partnerid=result[0])}}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?');">Delete</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

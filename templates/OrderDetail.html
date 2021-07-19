@@ -1,0 +1,37 @@
+{% extends 'template.html' %}
+
+{% block head %}
+    <title>Snakes-R-Us: Order Detail</title>
+{% endblock %} 
+
+
+{% block body %}  
+    <h1>Order Detail</h1>
+    <br>
+    <table>
+        <thead>
+        <tr>
+            <th>Species</th>
+            <th>Breeder</th>
+            <th>Weight (lb)</th>
+            <th>Length (in)</th>
+            <th>color</th>
+            <th>quantity</th>
+            <th>price</th>
+        </tr>
+        </thead>    
+        <tbody>
+            {% for result in results %}    
+                <tr>
+                    <td>{{result[1]}}</td>
+                    <td>{{result[2]}}</td>
+                    <td>{{result[3]}}</td>
+                    <td>{{result[4]}}</td>
+                    <td>{{result[5]}}</td>
+                    <td>{{result[6]}}</td>
+                    <td>{{result[7]}}</td>
+                    </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
