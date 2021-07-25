@@ -218,7 +218,7 @@ def EditSnake(snakeid):
 def SnakesBreeders():
     db = MySQLdb.connect(host, user, password, database)
     cursor = db.cursor()
-    cursor.execute('SELECT s.snake_id, s.species, s.price, b.breeder_id, b.breeder_name, b.email from Snakes s join SnakesBreeders sb on s.snake_id = sb.snake_id join Breeders b on sb.breeder_id = b.breeder_id;')
+    cursor.execute('SELECT s.snake_id, s.species, s.price, b.breeder_id, b.breeder_name, b.email from Snakes s join SnakesBreeders sb on s.snake_id = sb.snake_id join Breeders b on sb.breeder_id = b.breeder_id ORDER BY s.species;')
     results = cursor.fetchall()
     cursor.close()
     db.close()
@@ -232,7 +232,7 @@ def NewSnakesBreeders():
     if request.method == 'POST':
         snake_id = request.form['species']
         breeder_id = request.form['breeder']
-        cursor.execute('INSERT INTO SnakesBreeders (snake_id, breeder_id) VALUES (%s, %s);', (snake_id, breeder_id))
+        cursor.execute('INSERT IGNORE INTO SnakesBreeders (snake_id, breeder_id) VALUES (%s, %s);', (snake_id, breeder_id))
         db.commit()
         cursor.close()
         db.close()
