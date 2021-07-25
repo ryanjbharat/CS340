@@ -1,0 +1,25 @@
+{% extends 'template.html' %}
+
+{% block head %}
+    <title>Snakes-R-Us: Add a Snake Breeder</title>
+{% endblock %} 
+
+
+{% block body %} 
+    <h1>Add a Snake Breeder</h1>
+    <br>
+    <form method="post" action="/Breeders/NewBreeder">
+        <fieldset>
+            <label for="name"> Company Name: </label>
+            <input type="text" name="name" required />
+            <br>
+            <label for="email"> Email Address: </label>
+            <input type="text" name="email" required />
+            <br>
+            <label for="phone"> Phone Number: </label>
+            <input type="text" name="phone" required />
+            <br>
+            <input type="submit"/>
+        </fieldset>
+    </form>
+{% endblock %} 
