@@ -214,8 +214,51 @@ def EditSnake(snakeid):
         db.close()
         return render_template('EditSnake.html', results=results)
 
+@app.route('/SnakesBreeders')
+def SnakesBreeders():
+    db = MySQLdb.connect(host, user, password, database)
+    cursor = db.cursor()
+    cursor.execute('SELECT s.snake_id, s.species, s.price, b.breeder_id, b.breeder_name, b.email from Snakes s join SnakesBreeders sb on s.snake_id = sb.snake_id join Breeders b on sb.breeder_id = b.breeder_id;')
+    results = cursor.fetchall()
+    cursor.close()
+    db.close()
+    
+    return render_template('SnakesBreeders.html', results=results)
 
+@app.route('/SnakesBreeders/NewSnakesBreeders', methods=['GET','POST'])
+def NewSnakesBreeders():
+    db = MySQLdb.connect(host, user, password, database)
+    cursor = db.cursor()
+    if request.method == 'POST':
+        snake_id = request.form['species']
+        breeder_id = request.form['breeder']
+        cursor.execute('INSERT INTO SnakesBreeders (snake_id, breeder_id) VALUES (%s, %s);', (snake_id, breeder_id))
+        db.commit()
+        cursor.close()
+        db.close()
 
+        return redirect(url_for('SnakesBreeders'))
+
+    else:
+        cursor.execute('SELECT snake_id, species FROM Snakes')
+        selected_snakes = cursor.fetchall()
+        cursor.execute('SELECT breeder_id, breeder_name FROM Breeders')
+        selected_breeders = cursor.fetchall()
+        cursor.close()
+        db.close()
+
+        return render_template('NewSnakesBreeders.html', selected_snakes=selected_snakes, selected_breeders=selected_breeders)
+
+@app.route('/SnakesBreeders/DeleteSnakesBreeders/<int:snakeid>/<int:breederid>')
+def DeleteSnakesBreeders(snakeid, breederid):
+    db = MySQLdb.connect(host, user, password, database)
+    cursor = db.cursor()
+    cursor.execute('DELETE FROM SnakesBreeders WHERE snake_id =' + str(snakeid) +' AND breeder_id =' + str(breederid))
+    db.commit()
+    cursor.close()
+    db.close()
+
+    return redirect(url_for('SnakesBreeders'))
 
 @app.route('/Breeders')
 def Breeders():

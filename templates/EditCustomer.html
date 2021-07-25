@@ -1,0 +1,40 @@
+{% extends 'template.html' %}
+
+{% block head %}
+    <title>Snakes-R-Us: Edit Customer</title>
+{% endblock %} 
+
+
+{% block body %}  
+    <h1>Edit Customer</h1>
+    <br>
+    <form method="post" action="/Customers/EditCustomer/{{results[0]}}">
+        <fieldset>
+            <label for="fname"> First Name: </label>
+            <input type="text"  name="fname" value={{results[1]}} required />
+            <br>
+            <label for="lname"> Last Name: </label>
+            <input type="text"  name="lname" value={{results[2]}} required />
+            <br>
+            <label for="address"> Address: </label>
+            <input type="text"  name="address" value={{results[3]}} required />
+            <br>
+            <label for="city"> City: </label>
+            <input type="text"  name="city" value={{results[4]}} required />
+            <br>
+            <label for="state"> State: </label>
+            <input type="text" maxlength="2" name="state" value={{results[5]}} required />
+            <br>
+            <label for="postal"> Postal: </label>
+            <input type="text" name="postal" maxlength="10" value={{results[6]}} required />
+            <br>
+            <label for="country"> Country: </label>
+            <input type="text" name="country"  value={{results[7]}} required />
+            <br>
+            <label for="email"> Email: </label>
+            <input type="text" name="email"  value={{results[8]}} required/>
+            <br>
+            <input type="submit"/>
+        </fieldset>
+    </form>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'template.html' %}
+
+{% block head %}
+    <title>Snakes-R-Us: Associate Snake and Breeder</title>
+{% endblock %} 
+
+
+{% block body %} 
+    <h1>Associate a Breeder and Snake</h1>
+    <br>
+
+    <form method="post" action="/SnakesBreeders/NewSnakesBreeders">
+        <fieldset>
+            <label for="species"> Snake: </label>
+            <select name="species" id="species">
+                {% for selected_snakes in selected_snakes %}   
+                  <option value="{{selected_snakes[0]}}">{{selected_snakes[1]}}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="breeder"> Breeder: </label>
+            <select name="breeder" id="breeder">
+                {% for selected_breeders in selected_breeders %}   
+                  <option value="{{selected_breeders[0]}}">{{selected_breeders[1]}}</option>
+                {% endfor %}
+            </select>
+            <input type="submit"/>
+        </fieldset>
+    </form>
+{% endblock %} 

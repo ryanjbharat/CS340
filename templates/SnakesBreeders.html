@@ -4,24 +4,23 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
 {% extends 'template.html' %}
 
 {% block head %}
-<title>Snakes-R-Us: Manage Snakes</title>
+<title>Snakes-R-Us: Snakes and Breeders</title>
 {% endblock %}
 
 {% block body %}
 
-<h1>Snakes</h1>
+<h1>Snakes and their Breeders</h1>
 <br>
-<a href="Snakes/NewSnake" class="btn btn-success">Add a Snake</a>
+<a href="SnakesBreeders/NewSnakesBreeders" class="btn btn-success">New Association</a> 
 <br>
 <br>
 <table>
     <thead>
     <tr>
-        <th>Species</th>
-        <th>Weight (lb)</th>
-        <th>Length (in)</th>
-        <th>Color</th>
-        <th>Price (USD)</th>
+        <th>Snake Species</th>
+        <th>Price</th>
+        <th>Breeder's Name</th>
+        <th>Breeder's Email</th>
     </tr>
     </thead>    
     <tbody>
@@ -29,10 +28,9 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
             <tr>
                 <td>{{result[1]}}</td>
                 <td>{{result[2]}}</td>
-                <td>{{result[3]}}</td>
                 <td>{{result[4]}}</td>
                 <td>{{result[5]}}</td>
-                <td><a href="{{url_for('EditSnake', snakeid=result[0])}}" class="btn btn-warning">Edit</a></td>
+                <td><a href="{{url_for('DeleteSnakesBreeders', snakeid=result[0], breederid=result[3])}}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?');">Delete</a></td>
             </tr>
         {% endfor %}
     </tbody>
