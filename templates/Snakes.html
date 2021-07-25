@@ -11,7 +11,7 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
 
 <h1>Snakes</h1>
 <br>
-<!-- <a href="DeliveryPartners/create" class="btn btn-success">Add a Snake</a> -->
+<a href="Snakes/NewSnake" class="btn btn-success">Add a Snake</a>
 <br>
 <br>
 <table>
@@ -20,8 +20,8 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
         <th>Species</th>
         <th>Weight (lb)</th>
         <th>Length (in)</th>
-        <th>color</th>
-        <th>price</th>
+        <th>Color</th>
+        <th>Price (USD)</th>
     </tr>
     </thead>    
     <tbody>
@@ -32,6 +32,7 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
                 <td>{{result[3]}}</td>
                 <td>{{result[4]}}</td>
                 <td>{{result[5]}}</td>
+                <td><a href="{{url_for('EditSnake', snakeid=result[0])}}" class="btn btn-warning">Edit</a></td>
                 </tr>
         {% endfor %}
     </tbody>

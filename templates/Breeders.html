@@ -1,3 +1,6 @@
+<!-- Citation for bootstrap css styling:
+https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
+
 {% extends 'template.html' %}
 
 {% block head %}
@@ -8,6 +11,7 @@
 
 <h1>Snake Breeders</h1>
 <br>
+<a href="Breeders/NewBreeder" class="btn btn-success">Add a Breeder</a>
 <br>
 <br>
 <table>
@@ -24,6 +28,8 @@
                 <td>{{result[1]}}</td>
                 <td>{{result[2]}}</td>
                 <td>{{result[3]}}</td>
+                <td><a href="{{url_for('EditBreeder', breederid=result[0])}}" class="btn btn-warning">Edit</a></td>
+                <td><a href="{{url_for('DeleteBreeder', breederid=result[0])}}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?');">Delete</a></td>
             </tr>
         {% endfor %}
     </tbody>
