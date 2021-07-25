@@ -295,6 +295,59 @@ def Customers():
     return render_template('Customers.html', results=results)
 
 
+@app.route('/Customers/NewCustomer', methods=['GET', 'POST'])
+def CreateCustomer():
+    if request.method == 'POST':
+        db = MySQLdb.connect(host, user, password, database)
+        cursor = db.cursor()
+        #get user input from form
+        customer_fname = request.form['fname']
+        customer_lname = request.form['lname']
+        customer_address = request.form['address']
+        customer_city = request.form['city']
+        customer_state = request.form['state']
+        customer_postal = request.form['postal']
+        customer_country = request.form['country']
+        customer_email = request.form['email']
+        cursor.execute('INSERT INTO Customers (first_name, last_name, address, city, state, postal, country, email) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);', (customer_fname,customer_lname,customer_address, customer_city, customer_state, customer_postal, customer_country,customer_email))
+        #commit() is needed to save the changes... otherwise the insert statement is not saved.
+        #citation: https://www.w3schools.com/python/python_mysql_insert.asp
+        db.commit()
+        cursor.close()
+        db.close()
+
+        return redirect(url_for('Customers'))
+    else:
+        return render_template('NewCustomer.html')
+
+@app.route('/Customers/EditCustomer/<int:customerid>', methods=['GET', 'POST'])
+def EditCustomer(customerid):
+    db = MySQLdb.connect(host, user, password, database)
+    cursor = db.cursor()
+    if request.method == 'POST':
+        #get user input from form
+        customer_fname = request.form['fname']
+        customer_lname = request.form['lname']
+        customer_address = request.form['address']
+        customer_city = request.form['city']
+        customer_state = request.form['state']
+        customer_postal = request.form['postal']
+        customer_country = request.form['country']
+        customer_email = request.form['email']
+        cursor.execute('UPDATE Customers SET first_name = %s, last_name = %s, address = %s, city = %s, state = %s, postal = %s, country = %s, email = %s WHERE customer_id = %s;', (customer_fname, customer_lname, customer_address, customer_city, customer_state, customer_postal, customer_country, customer_email, customerid))
+        db.commit()
+        cursor.close()
+        db.close()
+
+        return redirect(url_for('Customers'))
+    else:
+        cursor.execute('SELECT * FROM Customers WHERE customer_id = ' + str(customerid))
+        results = cursor.fetchone()
+        cursor.close()
+        db.close()
+        return render_template('EditCustomer.html', results=results)
+
+
 @app.route('/DeliveryPartners')
 def DeliveryPartners():
     db = MySQLdb.connect(host, user, password, database)

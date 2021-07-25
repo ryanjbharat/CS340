@@ -11,6 +11,7 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
 
 <h1>Manage Customers</h1>
 <br>
+<a href="Customers/NewCustomer" class="btn btn-success">Add a Customer</a>
 <br>
 <br>
 <table>
@@ -37,6 +38,7 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
                 <td>{{result[6]}}</td>
                 <td>{{result[7]}}</td>
                 <td>{{result[8]}}</td>
+                <td><a href="{{url_for('EditCustomer', customerid=result[0])}}" class="btn btn-warning">Edit</a></td>
                 </tr>
         {% endfor %}
     </tbody>
