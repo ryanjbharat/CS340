@@ -33,7 +33,7 @@ def Orders():
                         c.last_name,
                         p.organization_name,
                         SUM(d.quantity) items,
-                        (SUM(d.quantity) * s.price) subtotal
+                        SUM(d.quantity * s.price) subtotal
                         FROM
                         OrdersHeaders o
                         JOIN Customers c ON o.customer_id = c.customer_id
