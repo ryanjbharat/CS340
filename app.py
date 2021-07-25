@@ -161,7 +161,11 @@ def DeleteOrder(orderid):
 def Snakes():
     db = MySQLdb.connect(host, user, password, database)
     cursor = db.cursor()
+<<<<<<< HEAD
     cursor.execute('SELECT * FROM Snakes;')
+=======
+    cursor.execute('SELECT * FROM Snakes')
+>>>>>>> 5486d741e9e49367d356ab24a998fd85f92bb7bf
     results = cursor.fetchall()
     cursor.close()
     db.close()

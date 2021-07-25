@@ -1,0 +1,56 @@
+{% extends 'template.html' %}
+
+{% block head %}
+    <title>Snakes-R-Us: Edit an Order</title>
+{% endblock %} 
+
+
+{% block body %} 
+    <h1>Edit an Order</h1>
+    <br>
+    <form method="post" action="/Orders/EditOrder/{{headers[0]}}">
+        <fieldset>
+            <label for="customer"> Customer Email: </label>
+            <span>{{headers[1]}}</span>
+            <br>
+            <label for="partner"> Delivery Partner: </label>
+            <span>{{headers[2]}}</span>
+            <br>
+            <br>
+            <br>
+            <div class="fixedHeader">
+            <table>
+                <thead>
+                    <tr>
+                        <th>snake_id</th>
+                        <th>Species</th>
+                        <th>Weight (lb)</th>
+                        <th>Length (in)</th>
+                        <th>Color</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>    
+                <tbody>
+                    {% for detail in details %}    
+                        <tr>
+                            <td><input type="hidden" name="snakeid" value={{detail[1]}}></td>
+                            <td>{{detail[2]}}</td>
+                            <td>{{detail[3]}}</td>
+                            <td>{{detail[4]}}</td>
+                            <td>{{detail[5]}}</td>
+                            <td>{{detail[6]}}</td>
+                            <td><input type="number" name="quantity" value={{detail[7]}}></td>
+                            </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+            <br>
+            <br>
+            <br>
+
+            <input type="submit"/>
+        </fieldset>
+    </form>
+{% endblock %} 

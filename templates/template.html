@@ -3,6 +3,7 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp
 https://www.w3schools.com/bootstrap/bootstrap_navbar.asp
  -->
 
+<<<<<<< HEAD
  <html>
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -60,3 +61,62 @@ https://www.w3schools.com/bootstrap/bootstrap_navbar.asp
     {% endblock %}
     </body>
     </html>
+=======
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <a href="/" class="navbar-brand">Snakes-R-Us</a>
+            <ul class="nav navbar-nav">
+                <li><a href="{{url_for('Orders')}}">Orders</a></li>
+                <li><a href="{{url_for('Customers')}}">Customers</a></>
+                <li><a href="{{url_for('Snakes')}}">Snakes</a></li>
+                <li><a href="{{url_for('DeliveryPartners')}}">Delivery Partners</a></li>
+                <li><a href="{{url_for('Breeders')}}">Breeders</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    {% block head %}
+
+
+    {% endblock %}
+
+</head>
+
+
+<style>
+    .fixedHeader {
+      overflow-y: auto;
+      height: 300px;
+      width: 75%;
+    }
+    .fixedHeader thead th {
+      position: sticky;
+      top: 0;
+    }
+    table {
+      border-collapse: collapse;        
+      width: 75%;
+    }
+    td {
+        padding: 10px;
+        border: 1px solid #000000;
+    }
+    th {
+        padding: 10px;
+        background: #cccccc;
+        border: 1px solid #555555;
+    }
+</style>
+<body>
+    
+{% block body %}
+
+
+{% endblock %}
+</body>
+</html>
+>>>>>>> 5486d741e9e49367d356ab24a998fd85f92bb7bf
