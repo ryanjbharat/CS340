@@ -53,6 +53,6 @@ CREATE TABLE OrdersDetails(
     order_id INT NOT NULL,
     snake_id INT NOT NULL,
     quantity INT UNSIGNED NOT NULL,
-    FOREIGN KEY (order_id) REFERENCES OrdersHeaders(order_id),
+    FOREIGN KEY (order_id) REFERENCES OrdersHeaders(order_id) ON DELETE CASCADE,
     FOREIGN KEY (snake_id) REFERENCES Snakes(snake_id)
 );

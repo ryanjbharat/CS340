@@ -27,24 +27,32 @@ def root():
 def Orders():
     db = MySQLdb.connect(host, user, password, database)
     cursor = db.cursor()
-    cursor.execute('SELECT o.order_id, c.first_name, c.last_name, p.organization_name, SUM(d.quantity) items, (SUM(d.quantity) * s.price) subtotal FROM OrdersHeaders o JOIN Customers c ON o.customer_id = c.customer_id JOIN DeliveryPartners p ON o.delivery_partner_id = p.delivery_partner_id JOIN OrdersDetails d ON o.order_id = d.order_id JOIN Snakes s ON d.snake_id = s.snake_id;')
+    cursor.execute('''SELECT
+                        o.order_id,
+                        c.first_name,
+                        c.last_name,
+                        p.organization_name,
+                        SUM(d.quantity) items,
+                        (SUM(d.quantity) * s.price) subtotal
+                        FROM
+                        OrdersHeaders o
+                        JOIN Customers c ON o.customer_id = c.customer_id
+                        JOIN DeliveryPartners p ON o.delivery_partner_id = p.delivery_partner_id
+                        JOIN OrdersDetails d ON o.order_id = d.order_id
+                        JOIN Snakes s ON d.snake_id = s.snake_id
+                        GROUP BY
+                        o.order_id;''')
     results = cursor.fetchall()
+    try:
+        if results[0][0] == None:
+            results = ()
+    except:
+        results = ()
+
     cursor.close()
     db.close()
 
     return render_template('Orders.html', results = results)
-
-
-@app.route('/Orders/Detail/<int:orderid>')
-def Detail(orderid):
-    db = MySQLdb.connect(host, user, password, database)
-    cursor = db.cursor()
-    cursor.execute('SELECT * FROM OrdersHeaders o JOIN OrdersDetails d WHERE o.order_id = d.orderid AND o.order_id = ' + str(orderid))
-    results = cursor.fetchall()
-    cursor.close()
-    db.close()
-
-    return render_template('OrderDetail.html', results = results)
 
 
 @app.route('/Orders/NewOrder', methods=['GET', 'POST'])
@@ -68,7 +76,6 @@ def CreateOrder():
         order_id = cursor.fetchone()[0]
 
         for i in range(0, len(order_items), 1):
-            print('inserting snake_id ' + order_items[i][0] + ", qty " + order_items[i][1])
             cursor.execute('INSERT INTO OrdersDetails (order_id, snake_id, quantity) VALUES (%s, %s, %s);', (order_id, int(order_items[i][0]), int(order_items[i][1])))
         
         db.commit()
@@ -94,12 +101,49 @@ def CreateOrder():
 def EditOrder(orderid):
     db = MySQLdb.connect(host, user, password, database)
     cursor = db.cursor()
-    cursor.execute('''SELECT 'Do something...' ''')
-    db.commit()
-    cursor.close()
-    db.close()
+    if request.method == 'POST':
+        #get user input from form
+        snake_id = request.form.getlist('snakeid')
+        quantities = request.form.getlist('quantity')
+        order_items = list(zip(snake_id, quantities))
+        
+        for i in range(0, len(order_items), 1):
+            print('updating snake_id ' + order_items[i][0] + ' order_id ' + str(orderid) + ' quantity ' + order_items[i][1])
+            cursor.execute('UPDATE OrdersDetails SET quantity = %s WHERE order_id = %s AND snake_id = %s;', (int(order_items[i][1]), orderid, int(order_items[i][0])))
 
-    return redirect(url_for('Orders'))
+        db.commit()
+        cursor.close()
+        db.close()
+
+        return redirect(url_for('Orders'))
+    else:
+        cursor.execute('''SELECT
+                        o.order_id,
+                        c.email,
+                        p.organization_name
+                        FROM
+                        OrdersHeaders o
+                        JOIN Customers c ON o.customer_id = c.customer_id
+                        JOIN DeliveryPartners p ON o.delivery_partner_id = p.delivery_partner_id
+                        WHERE o.order_id = 
+                        ''' + str(orderid))
+        headers = cursor.fetchone()
+
+        cursor.execute('''SELECT
+                        o.order_id,
+                        s.*,
+                        d.quantity
+                        FROM
+                        OrdersHeaders o
+                        JOIN OrdersDetails d ON o.order_id = d.order_id
+                        JOIN Snakes s ON d.snake_id = s.snake_id
+                        WHERE
+                        o.order_id=''' + str(orderid))
+        details = cursor.fetchall()
+
+        cursor.close()
+        db.close()
+        return render_template('EditOrder.html', headers=headers, details=details)
 
 @app.route('/Orders/DeleteOrder/<int:orderid>')
 def DeleteOrder(orderid):
