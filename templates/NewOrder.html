@@ -13,19 +13,49 @@
             <label for="customer"> Customer Email: </label>
             <select name="customer" id="customer">
                 {% for customer in customers %}   
-                  <option>{{customer[1]}}</option>
+                  <option value="{{customer[0]}}">{{customer[1]}}</option>
                 {% endfor %}
             </select>
             <br>
             <label for="partner"> Delivery Partner: </label>
             <select name="partner" id="partner">
                 {% for partner in partners %}   
-                    <option>{{partner[1]}}</option>
+                    <option value="{{partner[0]}}">{{partner[1]}}</option>
                 {% endfor %}
             </select>
             <br>
+            <label for="date"> Order Date: </label>
+            <span>{{date[0]}}</span>
             <br>
-            <span>Placeholder for some snakes...</span>
+            <br>
+            <div class="fixedHeader">
+            <table>
+                <thead>
+                    <tr>
+                        <th>snake_id</th>
+                        <th>Species</th>
+                        <th>Weight (lb)</th>
+                        <th>Length (in)</th>
+                        <th>Color</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>    
+                <tbody>
+                    {% for snake in snakes %}    
+                        <tr>
+                            <td><input type="hidden" name="snakeid" value={{snake[0]}}></td>
+                            <td>{{snake[1]}}</td>
+                            <td>{{snake[2]}}</td>
+                            <td>{{snake[3]}}</td>
+                            <td>{{snake[4]}}</td>
+                            <td>{{snake[5]}}</td>
+                            <td><input type="number" name="quantity" value=0></td>
+                            </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
             <br>
             <br>
             <br>
