@@ -220,6 +220,8 @@ def SnakesBreeders():
     cursor = db.cursor()
     if request.method == 'POST':
         search_query = request.form['snake']
+        #add wildcard symbol as suffix/prefix
+        search_query = '%' + search_query + '%'
         cursor.execute('SELECT s.snake_id, s.species, s.price, b.breeder_id, b.breeder_name, b.email from Snakes s join SnakesBreeders sb on s.snake_id = sb.snake_id join Breeders b on sb.breeder_id = b.breeder_id WHERE s.species LIKE %s or b.breeder_name like %s;', (search_query, search_query))
         results = cursor.fetchall()
         cursor.close()
