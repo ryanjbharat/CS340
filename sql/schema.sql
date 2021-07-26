@@ -36,8 +36,8 @@ CREATE TABLE SnakesBreeders(
     snake_id INT NOT NULL,
     breeder_id INT NOT NULL,
     PRIMARY KEY (snake_id, breeder_id),
-    FOREIGN KEY (snake_id) REFERENCES Snakes(snake_id),
-    FOREIGN KEY (breeder_id) REFERENCES Breeders(breeder_id)
+    FOREIGN KEY (snake_id) REFERENCES Snakes(snake_id) ON DELETE CASCADE,
+    FOREIGN KEY (breeder_id) REFERENCES Breeders(breeder_id)ON DELETE CASCADE
 );
 
 CREATE TABLE OrdersHeaders(
