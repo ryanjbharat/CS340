@@ -214,16 +214,25 @@ def EditSnake(snakeid):
         db.close()
         return render_template('EditSnake.html', results=results)
 
-@app.route('/SnakesBreeders')
+@app.route('/SnakesBreeders', methods=['GET','POST'])
 def SnakesBreeders():
     db = MySQLdb.connect(host, user, password, database)
     cursor = db.cursor()
-    cursor.execute('SELECT s.snake_id, s.species, s.price, b.breeder_id, b.breeder_name, b.email from Snakes s join SnakesBreeders sb on s.snake_id = sb.snake_id join Breeders b on sb.breeder_id = b.breeder_id ORDER BY s.species;')
-    results = cursor.fetchall()
-    cursor.close()
-    db.close()
-    
-    return render_template('SnakesBreeders.html', results=results)
+    if request.method == 'POST':
+        search_query = request.form['snake']
+        cursor.execute('SELECT s.snake_id, s.species, s.price, b.breeder_id, b.breeder_name, b.email from Snakes s join SnakesBreeders sb on s.snake_id = sb.snake_id join Breeders b on sb.breeder_id = b.breeder_id WHERE s.species LIKE %s or b.breeder_name like %s;', (search_query, search_query))
+        results = cursor.fetchall()
+        cursor.close()
+        db.close()
+
+        return render_template('SnakesBreeders.html', results=results)
+    else:
+        cursor.execute('SELECT s.snake_id, s.species, s.price, b.breeder_id, b.breeder_name, b.email from Snakes s join SnakesBreeders sb on s.snake_id = sb.snake_id join Breeders b on sb.breeder_id = b.breeder_id ORDER BY s.species;')
+        results = cursor.fetchall()
+        cursor.close()
+        db.close()
+        
+        return render_template('SnakesBreeders.html', results=results)
 
 @app.route('/SnakesBreeders/NewSnakesBreeders', methods=['GET','POST'])
 def NewSnakesBreeders():
