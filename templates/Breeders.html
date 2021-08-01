@@ -17,6 +17,7 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
 <table>
     <thead>
     <tr>
+        <th>Breeder ID</th>
         <th>Name</th>
         <th>Email</th>
         <th>Phone Number</th>
@@ -25,6 +26,7 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
     <tbody>
         {% for result in results %}    
             <tr>
+                <td>{{result[0]}}</td>
                 <td>{{result[1]}}</td>
                 <td>{{result[2]}}</td>
                 <td>{{result[3]}}</td>

@@ -31,8 +31,10 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
 <table>
     <thead>
     <tr>
+        <th>Snake ID</th>
         <th>Snake Species</th>
         <th>Price</th>
+        <th>Breeder ID</th>
         <th>Breeder's Name</th>
         <th>Breeder's Email</th>
     </tr>
@@ -40,8 +42,10 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
     <tbody>
         {% for result in results %}    
             <tr>
+                <td>{{result[0]}}</td>
                 <td>{{result[1]}}</td>
                 <td>{{result[2]}}</td>
+                <td>{{result[3]}}</td>
                 <td>{{result[4]}}</td>
                 <td>{{result[5]}}</td>
                 <td><a href="{{url_for('DeleteSnakesBreeders', snakeid=result[0], breederid=result[3])}}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?');">Delete</a></td>

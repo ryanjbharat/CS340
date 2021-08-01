@@ -17,21 +17,27 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
 <table>
     <thead>
     <tr>
+        <th>Order ID</th>
+        <th>Order Date</th>
         <th>Customer First Name</th>
         <th>Customer Last Name</th>
         <th>Delivery Partner</th>
         <th># of Items</th>
         <th>Subtotal</th>
+        <th>Shipped</th>
     </tr>
     </thead>    
     <tbody>
         {% for result in results %}    
             <tr>
+                <td>{{result[0]}}</td>
                 <td>{{result[1]}}</td>
                 <td>{{result[2]}}</td>
                 <td>{{result[3]}}</td>
                 <td>{{result[4]}}</td>
                 <td>{{result[5]}}</td>
+                <td>{{result[6]}}</td>
+                <td>{{result[7]}}</td>
                 <td><a href="{{url_for('EditOrder', orderid=result[0])}}" class="btn btn-warning">Edit</a></td>
                 <td><a href="{{url_for('DeleteOrder', orderid=result[0])}}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?');">Delete</a></td>
             </tr>

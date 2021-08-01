@@ -44,6 +44,8 @@ CREATE TABLE OrdersHeaders(
 	order_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     customer_id INT NOT NULL,
     delivery_partner_id INT NOT NULL,
+    order_date DATE NOT NULL,
+    shipped BOOLEAN DEFAULT False,
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
     FOREIGN KEY (delivery_partner_id) REFERENCES DeliveryPartners(delivery_partner_id)
 );

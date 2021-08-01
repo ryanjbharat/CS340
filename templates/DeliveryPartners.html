@@ -17,6 +17,7 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
 <table>
     <thead>
     <tr>
+        <th>Delivery Partner ID</th>
         <th>Organization Name</th>
         <th>Delivery Method</th>
     </tr>
@@ -24,6 +25,7 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
     <tbody>
         {% for result in results %}    
             <tr>
+                <td>{{result[0]}}</td>
                 <td>{{result[1]}}</td>
                 <td>{{result[2]}}</td>
                 <td><a href="{{url_for('EditDeliveryPartner', partnerid=result[0])}}" class="btn btn-warning">Edit</a></td>

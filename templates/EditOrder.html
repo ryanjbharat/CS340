@@ -11,18 +11,24 @@
     <form method="post" action="/Orders/EditOrder/{{headers[0]}}">
         <fieldset>
             <label for="customer"> Customer Email: </label>
-            <span>{{headers[1]}}</span>
+            <p>{{headers[1]}}</p>
             <br>
             <label for="partner"> Delivery Partner: </label>
-            <span>{{headers[2]}}</span>
+            <p>{{headers[2]}}</p>
             <br>
+            <label for="shipped"> Shipped: </label>
+            <select name="shipped" id="shipped">
+                    <option selected>{{headers[3]}}</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+            </select>
             <br>
             <br>
             <div class="fixedHeader">
             <table>
                 <thead>
                     <tr>
-                        <th>snake_id</th>
+                        <th hidden>snake_id</th>
                         <th>Species</th>
                         <th>Weight (lb)</th>
                         <th>Length (in)</th>
@@ -34,13 +40,13 @@
                 <tbody>
                     {% for detail in details %}    
                         <tr>
-                            <td><input type="hidden" name="snakeid" value={{detail[1]}}></td>
+                            <td hidden><input name="snakeid" value={{detail[1]}} readonly></td>
                             <td>{{detail[2]}}</td>
                             <td>{{detail[3]}}</td>
                             <td>{{detail[4]}}</td>
                             <td>{{detail[5]}}</td>
                             <td>{{detail[6]}}</td>
-                            <td><input type="number" name="quantity" value={{detail[7]}}></td>
+                            <td><input type="number" name="quantity" value={{detail[7]}} min=0></td>
                             </tr>
                     {% endfor %}
                 </tbody>

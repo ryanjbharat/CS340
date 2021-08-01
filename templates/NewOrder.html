@@ -44,13 +44,13 @@
                 <tbody>
                     {% for snake in snakes %}    
                         <tr>
-                            <td><input type="hidden" name="snakeid" value={{snake[0]}}></td>
+                            <td><input name="snakeid" value={{snake[0]}} readonly></td>
                             <td>{{snake[1]}}</td>
                             <td>{{snake[2]}}</td>
                             <td>{{snake[3]}}</td>
                             <td>{{snake[4]}}</td>
                             <td>{{snake[5]}}</td>
-                            <td><input type="number" name="quantity" value=0></td>
+                            <td><input type="number" name="quantity" value=0 min=0></td>
                             </tr>
                     {% endfor %}
                 </tbody>

@@ -16,12 +16,23 @@ def root():
     #citation: https://www.w3schools.in/python-tutorial/database-connection/
     db = MySQLdb.connect(host, user, password, database)
     cursor = db.cursor()
-    cursor.execute('''SELECT 'Maybe some aggregate stats can go here...';''')
+    cursor.execute('''SELECT COUNT(DISTINCT(o.order_id)) order_count, SUM(d.quantity) snake_sum, SUM(d.quantity * s.price) order_amt 
+                        FROM OrdersHeaders o
+                        JOIN OrdersDetails d
+                        ON o.order_id = d.order_id
+                        JOIN Snakes s
+                        ON d.snake_id = s.snake_id
+                        WHERE o.shipped = 0;''')
     results = cursor.fetchall()
+    try:
+        if results[0][0] == None:
+            results = ()
+    except:
+        results = ()
     cursor.close()
     db.close()
 
-    return render_template('index.html', results = str(results))
+    return render_template('index.html', results = results)
 
 @app.route('/Orders')
 def Orders():
@@ -29,11 +40,16 @@ def Orders():
     cursor = db.cursor()
     cursor.execute('''SELECT
                         o.order_id,
+                        o.order_date,
                         c.first_name,
                         c.last_name,
                         p.organization_name,
                         SUM(d.quantity) items,
-                        SUM(d.quantity * s.price) subtotal
+                        SUM(d.quantity * s.price) subtotal,
+                        CASE 
+                            WHEN o.shipped = 0 THEN 'No'
+                            ELSE 'Yes'
+                        END
                         FROM
                         OrdersHeaders o
                         JOIN Customers c ON o.customer_id = c.customer_id
@@ -69,7 +85,7 @@ def CreateOrder():
         # filter ids to those that have a quantity greater than 0
         order_items = [(a, b) for a, b in zip(snake_id, quantities) if b > '0']
 
-        cursor.execute('INSERT INTO OrdersHeaders (customer_id, delivery_partner_id) VALUES (%s, %s);', (customer_id, partner_id))
+        cursor.execute('INSERT INTO OrdersHeaders (order_date, customer_id, delivery_partner_id) VALUES (curdate(), %s, %s);', (customer_id, partner_id))
 
         # get the last order_id so that we can insert detail rows
         cursor.execute('SELECT MAX(order_id) FROM OrdersHeaders')
@@ -103,14 +119,15 @@ def EditOrder(orderid):
     cursor = db.cursor()
     if request.method == 'POST':
         #get user input from form
+        shipped = request.form['shipped']
         snake_id = request.form.getlist('snakeid')
         quantities = request.form.getlist('quantity')
         order_items = list(zip(snake_id, quantities))
         
         for i in range(0, len(order_items), 1):
-            print('updating snake_id ' + order_items[i][0] + ' order_id ' + str(orderid) + ' quantity ' + order_items[i][1])
             cursor.execute('UPDATE OrdersDetails SET quantity = %s WHERE order_id = %s AND snake_id = %s;', (int(order_items[i][1]), orderid, int(order_items[i][0])))
 
+        cursor.execute('UPDATE OrdersHeaders SET shipped = %s WHERE order_id = %s;', (shipped, orderid))
         db.commit()
         cursor.close()
         db.close()
@@ -120,7 +137,11 @@ def EditOrder(orderid):
         cursor.execute('''SELECT
                         o.order_id,
                         c.email,
-                        p.organization_name
+                        p.organization_name,
+                        CASE
+                            WHEN o.shipped = 0 THEN 'No'
+                            ELSE 'Yes'
+                        END
                         FROM
                         OrdersHeaders o
                         JOIN Customers c ON o.customer_id = c.customer_id

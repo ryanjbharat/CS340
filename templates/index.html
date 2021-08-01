@@ -7,6 +7,8 @@
 
 {% block body %} 
     <h1>Snakes-R-Us Orders Database</h1>
-    <h2>Order Dashboard</h2>
-    <p>{{results}}</p>
+    <h2>Open Order Dashboard</h2>
+    <h3>Total # of Orders: {{results[0][0]}}</h3>
+    <h3>Total # of Snakes on Order: {{results[0][1]}}</>
+    <h3>Total Order $: {{results[0][2]}}</h3>
 {% endblock %}

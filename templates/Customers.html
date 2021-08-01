@@ -17,6 +17,7 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
 <table>
     <thead>
     <tr>
+        <th>Customer ID</th>
         <th>First Name</th>
         <th>Last Name</th>
         <th>Address</th>
@@ -30,6 +31,7 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
     <tbody>
         {% for result in results %}    
             <tr>
+                <td>{{result[0]}}</td>
                 <td>{{result[1]}}</td>
                 <td>{{result[2]}}</td>
                 <td>{{result[3]}}</td>
