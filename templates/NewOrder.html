@@ -7,18 +7,27 @@
 
 {% block body %} 
     <h1>Create an Order</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="alert alert-danger" role="alert">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
     <br>
     <form method="post" action="/Orders/NewOrder">
         <fieldset>
             <label for="customer"> Customer Email: </label>
-            <select name="customer" id="customer">
+            <select name="customer" id="customer" required=True>
                 {% for customer in customers %}   
                   <option value="{{customer[0]}}">{{customer[1]}}</option>
                 {% endfor %}
             </select>
             <br>
             <label for="partner"> Delivery Partner: </label>
-            <select name="partner" id="partner">
+            <select name="partner" id="partner" required=True>
                 {% for partner in partners %}   
                     <option value="{{partner[0]}}">{{partner[1]}}</option>
                 {% endfor %}

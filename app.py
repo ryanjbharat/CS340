@@ -89,18 +89,25 @@ def CreateOrder():
         # filter ids to those that have a quantity greater than 0
         order_items = [(a, b) for a, b in zip(snake_id, quantities) if b > '0']
 
-        cursor.execute('INSERT INTO OrdersHeaders (order_date, customer_id, delivery_partner_id) VALUES (curdate(), %s, %s);', (customer_id, partner_id))
+        # check to make sure that the order actually contains items
+        if len(order_items) > 0:
+            cursor.execute('INSERT INTO OrdersHeaders (order_date, customer_id, delivery_partner_id) VALUES (curdate(), %s, %s);', (customer_id, partner_id))
 
-        # get the last order_id so that we can insert detail rows
-        cursor.execute('SELECT MAX(order_id) FROM OrdersHeaders')
-        order_id = cursor.fetchone()[0]
+            # get the last order_id so that we can insert detail rows
+            cursor.execute('SELECT MAX(order_id) FROM OrdersHeaders')
+            order_id = cursor.fetchone()[0]
 
-        for i in range(0, len(order_items), 1):
-            cursor.execute('INSERT INTO OrdersDetails (order_id, snake_id, quantity) VALUES (%s, %s, %s);', (order_id, int(order_items[i][0]), int(order_items[i][1])))
-        
-        db.commit()
-        cursor.close()
-        db.close()
+            for i in range(0, len(order_items), 1):
+                cursor.execute('INSERT INTO OrdersDetails (order_id, snake_id, quantity) VALUES (%s, %s, %s);', (order_id, int(order_items[i][0]), int(order_items[i][1])))
+            
+            db.commit()
+            cursor.close()
+            db.close()
+        else:
+            cursor.close()
+            db.close()
+            flash('Yo! Your order must contain atleast 1 snake (hopefully more than 1 because we have big numbers to hit).')
+            return redirect(url_for('CreateOrder'))
 
         return redirect(url_for('Orders'))
     else:
@@ -333,12 +340,18 @@ def CreateBreeder():
         breeder_name = request.form['name']
         breeder_email = request.form['email']
         breeder_phone = request.form['phone']
-        cursor.execute('INSERT INTO Breeders (breeder_name, email, phone_number) VALUES (%s, %s, %s);', (breeder_name, breeder_email, breeder_phone))
-        #commit() is needed to save the changes... otherwise the insert statement is not saved.
-        #citation: https://www.w3schools.com/python/python_mysql_insert.asp
-        db.commit()
-        cursor.close()
-        db.close()
+        try:
+            cursor.execute('INSERT INTO Breeders (breeder_name, email, phone_number) VALUES (%s, %s, %s);', (breeder_name, breeder_email, breeder_phone))
+            #commit() is needed to save the changes... otherwise the insert statement is not saved.
+            #citation: https://www.w3schools.com/python/python_mysql_insert.asp
+            db.commit()
+            cursor.close()
+            db.close()
+        except:
+            cursor.close()
+            db.close()
+            flash('This breeder email already exists!')
+            return redirect(url_for('CreateBreeder'))
 
         return redirect(url_for('Breeders'))
     else:
@@ -353,10 +366,15 @@ def EditBreeder(breederid):
         breeder_name = request.form['name']
         breeder_email = request.form['email']
         breeder_phone = request.form['phone']
-        cursor.execute('UPDATE Breeders SET breeder_name = %s, email = %s, phone_number = %s WHERE breeder_id = %s;', (breeder_name, breeder_email, breeder_phone, breederid))
-        db.commit()
-        cursor.close()
-        db.close()
+        try:
+            cursor.execute('UPDATE Breeders SET breeder_name = %s, email = %s, phone_number = %s WHERE breeder_id = %s;', (breeder_name, breeder_email, breeder_phone, breederid))
+            db.commit()
+            cursor.close()
+            db.close()
+        except:
+            cursor.close()
+            db.close()
+            flash('Update failed, this email address already exists.')
 
         return redirect(url_for('Breeders'))
     else:
@@ -393,12 +411,18 @@ def CreateCustomer():
         customer_postal = request.form['postal']
         customer_country = request.form['country']
         customer_email = request.form['email']
-        cursor.execute('INSERT INTO Customers (first_name, last_name, address, city, state, postal, country, email) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);', (customer_fname,customer_lname,customer_address, customer_city, customer_state, customer_postal, customer_country,customer_email))
-        #commit() is needed to save the changes... otherwise the insert statement is not saved.
-        #citation: https://www.w3schools.com/python/python_mysql_insert.asp
-        db.commit()
-        cursor.close()
-        db.close()
+        try:
+            cursor.execute('INSERT INTO Customers (first_name, last_name, address, city, state, postal, country, email) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);', (customer_fname,customer_lname,customer_address, customer_city, customer_state, customer_postal, customer_country,customer_email))
+            #commit() is needed to save the changes... otherwise the insert statement is not saved.
+            #citation: https://www.w3schools.com/python/python_mysql_insert.asp
+            db.commit()
+            cursor.close()
+            db.close()
+        except:
+            cursor.close()
+            db.close()
+            flash('This customer email already exists!')
+            return redirect(url_for('CreateCustomer'))
 
         return redirect(url_for('Customers'))
     else:
@@ -418,10 +442,15 @@ def EditCustomer(customerid):
         customer_postal = request.form['postal']
         customer_country = request.form['country']
         customer_email = request.form['email']
-        cursor.execute('UPDATE Customers SET first_name = %s, last_name = %s, address = %s, city = %s, state = %s, postal = %s, country = %s, email = %s WHERE customer_id = %s;', (customer_fname, customer_lname, customer_address, customer_city, customer_state, customer_postal, customer_country, customer_email, customerid))
-        db.commit()
-        cursor.close()
-        db.close()
+        try:
+            cursor.execute('UPDATE Customers SET first_name = %s, last_name = %s, address = %s, city = %s, state = %s, postal = %s, country = %s, email = %s WHERE customer_id = %s;', (customer_fname, customer_lname, customer_address, customer_city, customer_state, customer_postal, customer_country, customer_email, customerid))
+            db.commit()
+            cursor.close()
+            db.close()
+        except:
+            cursor.close()
+            db.close()
+            flash('Update failed, this email address already exists.')
 
         return redirect(url_for('Customers'))
     else:
