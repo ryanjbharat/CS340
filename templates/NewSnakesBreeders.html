@@ -14,7 +14,7 @@
             <label for="species"> Snake: </label>
             <select name="species" id="species">
                 {% for selected_snakes in selected_snakes %}   
-                  <option value="{{selected_snakes[0]}}">{{selected_snakes[1]}}</option>
+                  <option value="{{selected_snakes[0]}}">{{selected_snakes[1]}} - {{selected_snakes[2]}} - ${{selected_snakes[3]}}</option>
                 {% endfor %}
             </select>
             <br>

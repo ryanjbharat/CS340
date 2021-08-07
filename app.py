@@ -286,7 +286,7 @@ def NewSnakesBreeders():
         return redirect(url_for('SnakesBreeders'))
 
     else:
-        cursor.execute('SELECT snake_id, species FROM Snakes')
+        cursor.execute('SELECT snake_id, species, color, price FROM Snakes')
         selected_snakes = cursor.fetchall()
         cursor.execute('SELECT breeder_id, breeder_name FROM Breeders')
         selected_breeders = cursor.fetchall()
