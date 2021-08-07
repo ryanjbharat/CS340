@@ -344,7 +344,7 @@ def EditBreeder(breederid):
         breeder_name = request.form['name']
         breeder_email = request.form['email']
         breeder_phone = request.form['phone']
-        cursor.execute('UPDATE Breeders SET breeder_name = %s, email = %s, phone = %s WHERE breeder_id = %s;', (breeder_name, breeder_email, breeder_phone))
+        cursor.execute('UPDATE Breeders SET breeder_name = %s, email = %s, phone_number = %s WHERE breeder_id = %s;', (breeder_name, breeder_email, breeder_phone, breederid))
         db.commit()
         cursor.close()
         db.close()
