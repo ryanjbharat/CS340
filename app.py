@@ -134,15 +134,19 @@ def EditOrder(orderid):
         snake_id = request.form.getlist('snakeid')
         quantities = request.form.getlist('quantity')
         order_items = list(zip(snake_id, quantities))
-        
-        for i in range(0, len(order_items), 1):
-            cursor.execute('UPDATE OrdersDetails SET quantity = %s WHERE order_id = %s AND snake_id = %s;', (int(order_items[i][1]), orderid, int(order_items[i][0])))
+        max_item = int(max(quantities))
 
-        cursor.execute('UPDATE OrdersHeaders SET shipped = %s WHERE order_id = %s;', (shipped, orderid))
-        db.commit()
+        if int(max(quantities)) == 0:
+            flash('Update failed, your order must contain at least 1 snake.  If you want to delete an order, you can use the delete button below. (Please don''t, we have big numbers to hit!)')
+        else:
+            for i in range(0, len(order_items), 1):
+                cursor.execute('UPDATE OrdersDetails SET quantity = %s WHERE order_id = %s AND snake_id = %s;', (int(order_items[i][1]), orderid, int(order_items[i][0])))
+
+            cursor.execute('UPDATE OrdersHeaders SET shipped = %s WHERE order_id = %s;', (shipped, orderid))
+            db.commit()
+            
         cursor.close()
         db.close()
-
         return redirect(url_for('Orders'))
     else:
         cursor.execute('''SELECT

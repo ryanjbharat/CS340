@@ -10,6 +10,15 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
 {% block body %}
 
 <h1>Orders</h1>
+{% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="alert alert-danger" role="alert">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 <br>
 <a href="Orders/NewOrder" class="btn btn-success">New Order</a>
 <br>
