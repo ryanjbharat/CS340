@@ -1,5 +1,7 @@
 <!-- Citation for bootstrap css styling:
-https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
+https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp 
+Citation for message flashing:
+https://flask.palletsprojects.com/en/2.0.x/patterns/flashing/ -->
 
 {% extends 'template.html' %}
 
@@ -10,6 +12,15 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_css_buttons.asp -->
 {% block body %}
 
 <h1>Delivery Partners</h1>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="alert alert-danger" role="alert">
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 <br>
 <a href="DeliveryPartners/NewPartner" class="btn btn-success">Add a Delivery Partner</a>
 <br>

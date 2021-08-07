@@ -1,6 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_mysqldb import MySQLdb
 from config import user, password, database
+import secrets
+
+
 ## create config file with your user, password, db to replicate
 ## gunicorn --bind 0.0.0.0:5642 wsgi:app -D
 
@@ -9,7 +12,8 @@ host ='classmysql.engr.oregonstate.edu'
 
 app = Flask(__name__)
 #db = MySQLdb.connect(host, user, password, database)
-
+secret = secrets.token_urlsafe(32)
+app.secret_key = secret
 
 @app.route('/')
 def root():
@@ -307,10 +311,15 @@ def Breeders():
 def DeleteBreeder(breederid):
     db = MySQLdb.connect(host, user, password, database)
     cursor = db.cursor()
-    cursor.execute('DELETE FROM Breeders WHERE breeder_id =' + str(breederid))
-    db.commit()
-    cursor.close()
-    db.close()
+    try:
+        cursor.execute('DELETE FROM Breeders WHERE breeder_id =' + str(breederid))
+        db.commit()
+        cursor.close()
+        db.close()
+    except:
+        cursor.close()
+        db.close()
+        flash("Yo! This Breeder is currently associated with some snakes so it cannot be deleted.")
 
     return redirect(url_for('Breeders'))
 
@@ -439,10 +448,15 @@ def DeliveryPartners():
 def DeleteDeliveryPartner(partnerid):
     db = MySQLdb.connect(host, user, password, database)
     cursor = db.cursor()
-    cursor.execute('DELETE FROM DeliveryPartners WHERE delivery_partner_id=' + str(partnerid))
-    db.commit()
-    cursor.close()
-    db.close()
+    try:
+        cursor.execute('DELETE FROM DeliveryPartners WHERE delivery_partner_id=' + str(partnerid))
+        db.commit()
+        cursor.close()
+        db.close()
+    except:
+        cursor.close()
+        db.close()
+        flash("Yo! This Delivery Partner is currently associated with an order so it cannot be deleted.")
 
     return redirect(url_for('DeliveryPartners'))
 
