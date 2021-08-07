@@ -18,9 +18,13 @@
             <br>
             <label for="shipped"> Shipped: </label>
             <select name="shipped" id="shipped">
-                    <option selected>{{headers[3]}}</option>
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
+                    {% if headers[3] == "No" %}
+                        <option selected value="0">No</option>
+                        <option value="1">Yes</option>
+                    {% else %}
+                        <option selected value="1">Yes</option>
+                        <option value="0">No</option>
+                    {% endif %}
             </select>
             <br>
             <br>
