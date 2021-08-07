@@ -41,7 +41,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>snake_id</th>
+                        <th hidden>snake_id</th>
                         <th>Species</th>
                         <th>Weight (lb)</th>
                         <th>Length (in)</th>
@@ -53,7 +53,7 @@
                 <tbody>
                     {% for snake in snakes %}    
                         <tr>
-                            <td><input name="snakeid" value={{snake[0]}} readonly></td>
+                            <td hidden><input name="snakeid" value={{snake[0]}} readonly></td>
                             <td>{{snake[1]}}</td>
                             <td>{{snake[2]}}</td>
                             <td>{{snake[3]}}</td>
