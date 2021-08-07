@@ -134,7 +134,6 @@ def EditOrder(orderid):
         snake_id = request.form.getlist('snakeid')
         quantities = request.form.getlist('quantity')
         order_items = list(zip(snake_id, quantities))
-        max_item = int(max(quantities))
 
         if int(max(quantities)) == 0:
             flash('Update failed, your order must contain at least 1 snake.  If you want to delete an order, you can use the delete button below. (Please don''t, we have big numbers to hit!)')
